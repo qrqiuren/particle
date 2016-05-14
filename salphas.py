@@ -7,16 +7,27 @@ Created on Fri Apr  8 21:03:48 2016
 
 import numpy as np
 from numpy import random
-from numpy import sin, cos, tan, arctan, log, sqrt, angle, pi
+from numpy import sin, cos, tan, arctan, log, pi
 
 
 def salphas(alpha, gamma, beta=1, size=None):
     """
-    Generate random variables under S-alpha-S distribution. Please check the
-    reference paper for furthur details on algorithms and symbols.
+    Generate random variables under S-alpha-S distribution.
+
+    Please check the reference paper for furthur details on algorithms and
+    symbols.
 
     Parameters
     ----------
+    alpha : float
+        Alpha coefficient (characteristic exponent) of S-alpha-S distribution.
+    gamma : float
+        Gamma coefficient (dispersion parameter) of S-alpha-S distribution.
+    beta : float
+        Beta coefficient (skewness parameter) of alpha stable distribution. By
+        default, this value will be 1 as the definition of S-alpha-S
+        distribution. But it allows configuration to generate samples in a
+        broader situation.
     size : tuple of ints, optional
         Output shape. If the given shape is, e.g., (m, n, k), then m * n * k
         samples are drawn. If not indicated, a single value will be returned.
@@ -58,14 +69,26 @@ def salphas(alpha, gamma, beta=1, size=None):
 
 def salphas_cplx(alpha, gamma, size=None):
     """
-    TODO: Generate complex random variables under S-alpha-S distribution. Please check the
-    reference paper for furthur details on algorithms and symbols.
+    Generate complex random variables under S-alpha-S distribution.
+
+    Please check the reference paper for furthur details on algorithms and
+    symbols.
 
     Parameters
     ----------
+    alpha : float
+        Alpha coefficient (characteristic exponent) of S-alpha-S distribution.
+    gamma : float
+        Gamma coefficient (dispersion parameter) of S-alpha-S distribution.
     size : tuple of ints, optional
         Output shape. If the given shape is, e.g., (m, n, k), then m * n * k
         samples are drawn. If not indicated, a complex value will be returned.
+
+    Returns
+    -------
+    a : float
+        A real number or a real matrix with size `size` which is the sample of
+        the distribution.
 
     Reference
     ---------
@@ -92,14 +115,26 @@ if __name__ == '__main__':
 
     g = random.normal(0., 1., size=(1000,))
     x = salphas(alpha=1.23, beta=0., gamma=1., size=(1000,))
-    plt.plot(x, 'b')
+    plt.subplot(2, 1, 1)
+    plt.plot(x, color='b')
     plt.title('1000 random S-alpha-S samples (alpha=1.23, gamma=1)')
-    plt.show()
-    plt.plot(g, 'r')
+    plt.subplot(2, 1, 2)
+    plt.plot(g, color='r')
     plt.title('1000 random standard Gaussian samples')
     plt.show()
-    x = salphas_cplx(alpha=1.23, gamma=1., size=(1000,))
-    plt.plot(abs(x))
+
+    plt.subplot(2, 1, 1)
+    plt.hist(x, 100, range=(-20, 20), color='b')
+    plt.title('Histogram of above S-alpha-S samples')
+    plt.subplot(2, 1, 2)
+    plt.hist(g, 100, range=(-20, 20), color='r')
+    plt.title('Histogram of above standard Gaussian samples')
     plt.show()
-    plt.plot(angle(x) / pi * 180)
+
+    x = salphas_cplx(alpha=1.23, gamma=1., size=(1000,))
+    plt.subplot(2, 1, 1)
+    plt.plot(x.real, color='b')
+    plt.title('Real and imag part of complex S-alpha-S samples')
+    plt.subplot(2, 1, 2)
+    plt.plot(x.imag, color='g')
     plt.show()

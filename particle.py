@@ -2,7 +2,7 @@
 """
 Created on Fri Feb  5 17:56:44 2016
 
-@author: duguc
+@author: Huang Hongye <qrqiuren@users.noreply.github.com>
 
 This is a simulation program for acoustic signal tracking.
 

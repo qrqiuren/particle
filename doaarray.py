@@ -2,7 +2,7 @@
 """
 Created on Fri May 13 09:50:09 2016
 
-@author: duguc
+@author: Huang Hongye <qrqiuren@users.noreply.github.com>
 """
 
 

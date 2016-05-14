@@ -33,7 +33,7 @@ class ULAArray(DOAArray):
         wavelength : float
             Wavelength of incoming wave.
         sensordist : float
-            Distance between sensors.
+            Distance between nearest sensors.
         """
         self.nsensor = nsensor
         self.wavelength = wavelength

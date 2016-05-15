@@ -24,8 +24,6 @@ class ULAArray(DOAArray):
 
     def __init__(self, nsensor, wavelength, sensordist):
         """
-        Initialization of ULA sensor array.
-
         Parameters
         ----------
         nsensor : int

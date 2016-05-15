@@ -58,7 +58,7 @@ class ULAArray(DOAArray):
         wavelength = self.wavelength
 
         m = np.arange(nsensor).reshape((nsensor,))
-        a = np.exp(-2j * pi * sensordist / wavelength * m.dot(cos(angle)))
+        a = np.exp(-2j * pi * sensordist / wavelength * cos(angle) * m)
         return a
 
 if __name__ == '__main__':

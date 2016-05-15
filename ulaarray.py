@@ -22,18 +22,18 @@ class ULAArray(DOAArray):
     IEEE Sensors Journal, Feb. 2013, Vol. 13 No. 2: 589-600.
     """
 
-    def __init__(self, nsensor, wavelength, sensordist):
+    def __init__(self, nsensors, wavelength, sensordist):
         """
         Parameters
         ----------
-        nsensor : int
+        nsensors : int
             Number of sensors.
         wavelength : float
             Wavelength of incoming wave.
         sensordist : float
             Distance between nearest sensors.
         """
-        self.nsensor = nsensor
+        self.nsensors = nsensors
         self.wavelength = wavelength
         self.sensordist = sensordist
 
@@ -48,14 +48,14 @@ class ULAArray(DOAArray):
 
         Returns
         -------
-        a : (nsensor,) ndarray
+        a : (nsensors,) ndarray
             The steering vector corresponding to `angle`.
         """
-        nsensor = self.nsensor
+        nsensors = self.nsensors
         sensordist = self.sensordist
         wavelength = self.wavelength
 
-        m = np.arange(nsensor).reshape((nsensor,))
+        m = np.arange(nsensors).reshape((nsensors,))
         a = np.exp(-2j * pi * sensordist / wavelength * cos(angle) * m)
         return a
 

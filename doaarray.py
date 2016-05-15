@@ -17,18 +17,18 @@ class DOAArray:
     IEEE Sensors Journal, Feb. 2013, Vol. 13 No. 2: 589-600.
     """
 
-    def __init__(self, nsensor, wavelength):
+    def __init__(self, nsensors, wavelength):
         """
         Initialization of DOASteer.
 
         Parameters
         ----------
-        nsensor : int
+        nsensors : int
             Number of sensors.
         wavelength : float
             Wavelength of incoming wave.
         """
-        self.nsensor = nsensor
+        self.nsensors = nsensors
         self.wavelength = wavelength
 
     def steer(self, angle):
@@ -44,7 +44,7 @@ class DOAArray:
 
         Returns
         -------
-        a : (nsensor,) ndarray
+        a : (nsensors,) ndarray
             The steering vector corresponding to `angle`.
         """
         raise NotImplementedError

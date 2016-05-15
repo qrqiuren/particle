@@ -10,7 +10,7 @@ from numpy import random
 from numpy import sin, cos, tan, arctan, log, pi
 
 
-def salphas(alpha, gamma, beta=1, size=None):
+def salphas(alpha, gamma, beta=0., size=None):
     """
     Generate random variables under S-alpha-S distribution.
 
@@ -25,7 +25,7 @@ def salphas(alpha, gamma, beta=1, size=None):
         Gamma coefficient (dispersion parameter) of S-alpha-S distribution.
     beta : float
         Beta coefficient (skewness parameter) of alpha stable distribution. By
-        default, this value will be 1 as the definition of S-alpha-S
+        default, this value will be 0 as the definition of S-alpha-S
         distribution. But it allows configuration to generate samples in a
         broader situation.
     size : tuple of ints, optional

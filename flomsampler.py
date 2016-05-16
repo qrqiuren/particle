@@ -76,3 +76,40 @@ class FLOMSampler(SpectrumSampler):
         a = self.sarr.steer(angle)
         p = 1. / (a.T.conj().dot(inv(self.gamma).dot(a)))
         return p
+
+if __name__ == '__main__':
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    from ulaarray import ULAArray
+    from salphas import salphas_cplx
+
+    nsensors = 10
+    nss = 20
+    groundtruth = 68    # Ground truth
+
+    ula = ULAArray(nsensors, 3, 1.5)
+    flom = FLOMSampler(nss, ula, 1.1)
+
+    t, step = np.linspace(0., 1., nss, retstep=True)
+    phase = 2 * np.pi * np.random.rand(t.size)
+    signal = 0.8879 * np.exp(1j * np.pi * phase)
+    a = ula.steer(np.pi * groundtruth / 180)
+
+    y = np.zeros((nsensors, t.size), dtype=np.complex)
+    for i in range(t.size):
+        y[:, i] = a * signal[i]
+    noise = 2 * salphas_cplx(1.1, 2, size=(nsensors, t.size))
+    y += noise
+
+    flom.compCov(y)
+
+    angles = np.linspace(0., np.pi, 360)
+    spec = np.zeros(angles.shape)
+    for i in range(angles.size):
+        spec[i] = flom.compSpecSample(angles[i])
+
+    plt.plot(angles / np.pi * 180, spec)
+    plt.plot([groundtruth, groundtruth], [0, 1], 'k')
+    plt.title('FLOM beamformer (Ground truth = %d deg)' % groundtruth)
+    plt.show()

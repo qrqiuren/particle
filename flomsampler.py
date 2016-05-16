@@ -36,9 +36,10 @@ class FLOMSampler(SpectrumSampler):
         self.sarr = sarr
         self.order = order
 
-    def compFLOM(self, y):
+    def compCov(self, y):
         """
-        Computes and restores the FLOM matrix of incoming observations.
+        Computes and restores the FLOM matrix of incoming observations before
+        computing spatial spectrum.
 
         Parameters
         ----------

@@ -10,6 +10,11 @@ class DOAArray:
     """
     Base class of sensor array in DOA problems.
 
+    Attributes
+    ----------
+    nsensors : int
+        Number of sensors in the array.
+
     Reference
     ---------
     Zhong, X., Prekumar, A. B., and Madhukumar, A. S., "Particle filtering for

@@ -14,6 +14,12 @@ class NaiveTracker(Tracker):
     """
     DOA tracker without any filtering. It always computes the full spectrum.
 
+    Attributes
+    ----------
+    angles : (nangles,) ndarray
+        Vector of angles to be sampled in a spatial spectrum. It is sampled in
+        a linear space.
+
     Reference
     ---------
     Zhong, X., Prekumar, A. B., and Madhukumar, A. S., "Particle filtering for
@@ -66,12 +72,3 @@ class NaiveTracker(Tracker):
         angle = angles[np.argmax(spec)]
 
         return angle, spec
-
-    def angles(self):
-        """
-        Returns
-        -------
-        angles : (nangles,) ndarray
-            The angle samples in the spatial spectrum.
-        """
-        return self.angles

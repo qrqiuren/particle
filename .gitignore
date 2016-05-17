@@ -107,3 +107,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# ========================
+# Project specified
+# ========================
+
+# Avoid `salphas.py` appears in legacy
+legacy/salphas.py

@@ -71,4 +71,7 @@ class NaiveTracker(Tracker):
 
         angle = angles[np.argmax(spec)]
 
-        return angle, spec
+        if retspec:
+            return angle, spec
+        else:
+            return angle

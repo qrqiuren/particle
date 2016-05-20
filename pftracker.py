@@ -97,7 +97,7 @@ class PFTracker(Tracker):
         w /= np.sum(w)
 
         # Resampling
-        if 1. / np.sum(w ** 2) < self.nthr:
+        if 1. / np.sum(w ** 2) < self.neff:
             nparts = self.nparts
 
             cum = np.zeros((nparts+1,))

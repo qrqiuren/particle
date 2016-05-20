@@ -22,14 +22,21 @@ class SignalYielder:
     acoustic source tracking in impulsive noise with alpha-stable process",
     IEEE Sensors Journal, Feb. 2013, Vol. 13 No. 2: 589-600.
     """
-    def __init__(self, sarr):
+    def __init__(self, sarr, alpha, gamma):
         """
         Parameters
         ----------
         sarr : DOAArray
             Instance of sensor array.
+        alpha : float
+            Alpha coefficient (characteristic exponent) of S-alpha-S
+            distribution.
+        gamma : float
+            Gamma coefficient (dispersion parameter) of S-alpha-S distribution.
         """
         self.sarr = sarr
+        self.alpha = alpha
+        self.gamma = gamma
 
     def gen(self, angle):
         """
@@ -54,7 +61,7 @@ class SignalYielder:
         signal = np.exp(1j * np.pi * phase)
 
         y = signal * a
-        noise = salphas_cplx(1.5, 1.5, size=y.shape)
+        noise = salphas_cplx(self.alpha, self.gamma, size=y.shape)
         y += noise
 
         return y

@@ -87,7 +87,8 @@ class SignalYielder:
         snapshots = angles.size
 
         phase = np.random.random(snapshots) * np.pi * 2
-        y = salphas_cplx(1.5, 1.5, size=(self.sarr.nsensors, snapshots))
+        y = salphas_cplx(self.alpha, self.gamma,
+                         size=(self.sarr.nsensors, snapshots))
 
         for i in range(snapshots):
             a = self.sarr.steer(angles[i])

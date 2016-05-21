@@ -30,6 +30,10 @@ t = np.linspace(0., 1., totalss)
 doa = np.linspace(np.pi * 0.25, np.pi * 0.75, 1000)
 dt = t[1] - t[0]
 
+# Compute them for each timestep
+ts_t = t[0:totalss:nss]
+ts_doa = doa[0:totalss:nss]
+
 # Define array layout
 ula = ULAArray(nsensors=8, wavelength=3.2, sensordist=1.6)
 
@@ -57,6 +61,11 @@ for ts in range(nts):
     for tracker in trackers:
         esti[tracker][ts] = tracker.timestep(y)
 
-for tracker in trackers:
-    plt.plot(180 / np.pi * esti[tracker])
+# Plotting results
+plt.plot(t, 180 / np.pi * doa, color='k', label='Ground truth')
+plt.plot(ts_t, 180 / np.pi * esti[caponnaive], 'b+--', label='Capon')
+plt.plot(ts_t, 180 / np.pi * esti[flomnaive], 'r*--', label='FLOM')
+plt.plot(ts_t, 180 / np.pi * esti[caponpf], 'g^-', label='Capon-PF')
+plt.plot(ts_t, 180 / np.pi * esti[flompf], 'md-', label='FLOM-PF')
+plt.legend(loc='best')
 plt.show()

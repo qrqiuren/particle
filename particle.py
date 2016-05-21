@@ -22,7 +22,8 @@ totalss = 1000          # Number of total snapshots
 nss = 20                # Number of snapshots in a timestep
 nts = totalss // nss    # Number of timesteps
 
-order = 1.5             # Order of the noise
+order = 1.6             # Order of the noise
+flomorder = 1.2         # ORder of FLOM
 
 # Define time and DOA angle vectors
 t = np.linspace(0., 1., totalss)
@@ -36,7 +37,7 @@ ula = ULAArray(nsensors=8, wavelength=3.2, sensordist=1.6)
 siggen = SignalYielder(ula, order, 2.0)
 
 capon = CaponSampler(nss, ula)
-flom = FLOMSampler(nss, ula, order)
+flom = FLOMSampler(nss, ula, flomorder)
 
 caponnaive = NaiveTracker(capon, 360)
 flomnaive = NaiveTracker(flom, 360)

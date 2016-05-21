@@ -70,7 +70,9 @@ class CaponSampler(SpectrumSampler):
         """
         a = self.sarr.steer(angle)
         p = 1. / (a.T.conj().dot(inv(self.r).dot(a)))
-        return p
+
+        # Discard imaginary part
+        return p.real
 
 if __name__ == '__main__':
     import numpy as np

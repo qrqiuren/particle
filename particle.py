@@ -71,8 +71,8 @@ for ts in range(nts):
         esti[tracker][ts] = tracker.timestep(y)
 
 # Plotting results
-plt.plot(t, 180 / np.pi * doa, color='k', label='Ground truth')
-plt.plot(ts_t, 180 / np.pi * esti[caponnaive], 'b+--', label='Capon')
+plt.plot(t, 180 / np.pi * doa, color='k', label='Ground truth', linewidth=3)
+plt.plot(ts_t, 180 / np.pi * esti[caponnaive], 'b+:', label='Capon')
 plt.plot(ts_t, 180 / np.pi * esti[flomnaive], 'r*--', label='FLOM')
 plt.plot(ts_t, 180 / np.pi * esti[caponpf], 'g^-', label='Capon-PF')
 plt.plot(ts_t, 180 / np.pi * esti[flompf], 'md-', label='FLOM-PF')

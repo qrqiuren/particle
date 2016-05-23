@@ -25,6 +25,9 @@ nts = totalss // nss    # Number of timesteps
 order = 1.6             # Order of the noise
 flomorder = 1.2         # ORder of FLOM
 
+GSNR = -8                   # Generalized SNR in dB
+gamma = 10 ** (-GSNR / 10)  # Gamma parameter of S-alpha-S noise
+
 # Define time and DOA angle vectors
 t = np.linspace(0., 1., totalss)
 doa = np.linspace(np.pi * 0.25, np.pi * 0.75, 1000)
@@ -38,7 +41,7 @@ ts_doa = doa[0:totalss:nss]
 ula = ULAArray(nsensors=8, wavelength=3.2, sensordist=1.6)
 
 # Define signal generator
-siggen = SignalYielder(ula, order, 2.0)
+siggen = SignalYielder(ula, order, gamma)
 
 capon = CaponSampler(nss, ula)
 flom = FLOMSampler(nss, ula, flomorder)

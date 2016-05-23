@@ -30,7 +30,6 @@ gamma = 10 ** (-GSNR / 10)  # Gamma parameter of S-alpha-S noise
 
 # Define time and DOA angle vectors
 t = np.linspace(0., 1., totalss)
-doa = np.linspace(np.pi * 0.25, np.pi * 0.75, 1000)
 dt = t[1] - t[0]
 doa = np.zeros(t.shape)
 vel = ((0.75 * np.pi) - (0.25 * np.pi)) / totalss / dt
@@ -41,6 +40,7 @@ for i in range(totalss - 1):
 # Compute them for each timestep
 ts_t = t[0:totalss:nss]
 ts_doa = doa[0:totalss:nss]
+ts_dt = ts_t[1] - ts_t[0]
 
 # Define array layout
 ula = ULAArray(nsensors=8, wavelength=3.2, sensordist=1.6)
@@ -54,10 +54,11 @@ flom = FLOMSampler(nss, ula, flomorder)
 caponnaive = NaiveTracker(capon, 360)
 flomnaive = NaiveTracker(flom, 360)
 
-caponpf = PFTracker(capon, dt, nparts=32, neff=24, initdoa=doa[0], initvel=0.,
-                    initstd=0.1, noisestd=10000, expo=5)
-flompf = PFTracker(flom, dt, nparts=32, neff=24, initdoa=doa[0], initvel=0.,
-                   initstd=0.1, noisestd=10000, expo=5)
+initvel = (ts_doa[1] - ts_doa[0]) / ts_dt
+caponpf = PFTracker(capon, ts_dt, nparts=64, neff=60, initdoa=ts_doa[0],
+                    initvel=initvel, initstd=0.1, noisestd=20, expo=5)
+flompf = PFTracker(flom, ts_dt, nparts=64, neff=60, initdoa=ts_doa[0],
+                   initvel=initvel, initstd=0.1, noisestd=20, expo=5)
 
 trackers = [caponnaive, flomnaive, caponpf, flompf]
 esti = dict((tracker, np.zeros(nts,)) for tracker in trackers)

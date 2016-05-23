@@ -32,6 +32,11 @@ gamma = 10 ** (-GSNR / 10)  # Gamma parameter of S-alpha-S noise
 t = np.linspace(0., 1., totalss)
 doa = np.linspace(np.pi * 0.25, np.pi * 0.75, 1000)
 dt = t[1] - t[0]
+doa = np.zeros(t.shape)
+vel = ((0.75 * np.pi) - (0.25 * np.pi)) / totalss / dt
+doa[0] = 0.25 * np.pi
+for i in range(totalss - 1):
+    doa[i+1] = doa[i] + (vel + np.random.normal(0., 5.)) * dt
 
 # Compute them for each timestep
 ts_t = t[0:totalss:nss]

@@ -22,8 +22,8 @@ totalss = 1000          # Number of total snapshots
 nss = 20                # Number of snapshots in a timestep
 nts = totalss // nss    # Number of timesteps
 
-order = 1.6             # Order of the noise
-flomorder = 1.2         # ORder of FLOM
+alpha = 1.6             # Alpha parameter of S-alpha-S noise
+flomorder = 1.2         # Order of FLOM
 
 GSNR = -8                   # Generalized SNR in dB
 gamma = 10 ** (-GSNR / 10)  # Gamma parameter of S-alpha-S noise
@@ -41,7 +41,7 @@ ts_doa = doa[0:totalss:nss]
 ula = ULAArray(nsensors=8, wavelength=3.2, sensordist=1.6)
 
 # Define signal generator
-siggen = SignalYielder(ula, order, gamma)
+siggen = SignalYielder(ula, alpha, gamma)
 
 capon = CaponSampler(nss, ula)
 flom = FLOMSampler(nss, ula, flomorder)

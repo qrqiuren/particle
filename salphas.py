@@ -113,24 +113,22 @@ def salphas_cplx(alpha, gamma, size=None):
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
-    noisefig, (ax1, ax2) = plt.subplots(nrows=2, sharex=True)
-    g = random.normal(0., 1., size=(1000,))
-    x = salphas(alpha=1.23, beta=0., gamma=1., size=(1000,))
-    ax1.plot(x, color='b')
-    ax1.set_title('1000 random S-alpha-S samples (alpha=1.23, gamma=1)')
-    ax2.plot(g, color='r')
-    ax2.set_title('1000 random standard Gaussian samples')
+    noisefig, axes = plt.subplots(nrows=3, ncols=2, sharex=True)
+    alphas = [[2., 2.], [1.5, 1.5], [1., 1.]]
+    gammas = [[1., 3.], [ 1.,  3.], [1., 3.]]
+    for i in range(3):
+        for j in range(2):
+            ax = axes[i][j]
+            alpha = alphas[i][j]
+            gamma = gammas[i][j]
+            n = salphas(alpha, gamma, size=(1000,))
+            ax.plot(n, color='k')
+            ax.set_title('alpha=%.1f, gamma=%.1f' % (alpha, gamma))
     plt.show()
-
-    histfig, (ax1, ax2) = plt.subplots(nrows=2)
-    ax1.hist(x, 100, range=(-20, 20), color='b')
-    ax1.set_title('Histogram of above S-alpha-S samples')
-    ax2.hist(g, 100, range=(-20, 20), color='r')
-    ax2.set_title('Histogram of above standard Gaussian samples')
 
     cplxfig, (ax1, ax2) = plt.subplots(nrows=2)
     x = salphas_cplx(alpha=1.23, gamma=1., size=(1000,))
     ax1.plot(x.real, color='b')
-    ax1.set_title('Real and imag part of complex S-alpha-S samples')
+    ax1.set_title('Complex S-alpha-S samples (alpha=1.23, gamma=1)')
     ax2.plot(x.imag, color='g')
     plt.show()

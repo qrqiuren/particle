@@ -96,6 +96,15 @@ class PFTracker(Tracker):
 
         w /= np.sum(w)
 
+        # Limit DOA angle to [0, pi)
+        too_small = x[0, :] < 0
+        too_large = x[0, :] >= np.pi
+        while np.any(too_small) or np.any(too_large):
+            x[0, too_small] = -x[0, too_small]
+            x[0, too_large] = np.pi - x[0, too_large]
+            too_small = x[0, :] < 0
+            too_large = x[0, :] >= np.pi
+
         # Resampling
         if 1. / np.sum(w ** 2) < self.neff:
             nparts = self.nparts

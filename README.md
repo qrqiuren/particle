@@ -1,4 +1,4 @@
-# particle
+# particle - simple DOA tracking computer simulation program
 
 Direction-of-arrival (DOA) estimation in impulse environment with particle filtering approach.
 

@@ -85,33 +85,54 @@ if __name__ == '__main__':
 
     from ulaarray import ULAArray
     from salphas import salphas_cplx
+    from caponsampler import CaponSampler
 
     nsensors = 10
     nss = 20
-    groundtruth = 68    # Ground truth
+    nangles = 360
+
+    groundtruth = 68    # Ground truth in degrees
+
+    expo = 5
 
     ula = ULAArray(nsensors, 3, 1.5)
+    capon = CaponSampler(nss, ula)
     flom = FLOMSampler(nss, ula, 1.1)
 
     t, step = np.linspace(0., 1., nss, retstep=True)
     phase = 2 * np.pi * np.random.rand(t.size)
-    signal = 0.8879 * np.exp(1j * np.pi * phase)
+    signal = np.exp(1j * np.pi * phase)
     a = ula.steer(np.pi * groundtruth / 180)
 
     y = np.zeros((nsensors, t.size), dtype=np.complex)
     for i in range(t.size):
         y[:, i] = a * signal[i]
-    noise = 2 * salphas_cplx(1.1, 2, size=(nsensors, t.size))
+    noise = salphas_cplx(1.5, 2., size=(nsensors, t.size))
     y += noise
 
+    capon.compCov(y)
     flom.compCov(y)
 
-    angles = np.linspace(0., np.pi, 360)
-    spec = np.zeros(angles.shape)
+    angles = np.linspace(0., np.pi, nangles)
+    caponspec = np.zeros(angles.shape)
+    flomspec = np.zeros(angles.shape)
+    caponexpospec = np.zeros(angles.shape)
+    flomexpospec = np.zeros(angles.shape)
     for i in range(angles.size):
-        spec[i] = flom.compSpecSample(angles[i])
+        caponspec[i] = capon.compSpecSample(angles[i])
+        flomspec[i] = flom.compSpecSample(angles[i])
+        caponexpospec[i] = capon.compSpecSample(angles[i]) ** expo
+        flomexpospec[i] = flom.compSpecSample(angles[i]) ** expo
+    caponspec /= caponspec[groundtruth * nangles // 180]
+    flomspec /= flomspec[groundtruth * nangles // 180]
+    caponexpospec /= caponexpospec[groundtruth * nangles // 180]
+    flomexpospec /= flomexpospec[groundtruth * nangles // 180]
 
-    plt.plot(angles / np.pi * 180, spec)
+    plt.plot(angles / np.pi * 180, caponspec, 'k:', label='Capon')
+    plt.plot(angles / np.pi * 180, flomspec, 'k--', label='FLOM')
+    plt.plot(angles / np.pi * 180, caponexpospec, 'k-.', label='Capon, ksi=5')
+    plt.plot(angles / np.pi * 180, flomexpospec, 'k-', label='FLOM, ksi=5')
     plt.plot([groundtruth, groundtruth], [0, 1], 'k')
-    plt.title('FLOM beamformer (Ground truth = %d deg)' % groundtruth)
+    plt.title('Spatial spectrum (Ground truth = %d deg)' % groundtruth)
+    plt.legend()
     plt.show()

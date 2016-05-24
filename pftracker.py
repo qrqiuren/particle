@@ -60,7 +60,7 @@ class PFTracker(Tracker):
         # Draw particles and set initial weight
         x0 = np.array([initdoa, initvel])
         self.x = np.tile(x0, (nparts, 1)).T + \
-            (normal(0., initstd, (2, nparts)).T * self.B).T
+            (normal(0., initstd, (nparts, 2)) * self.B).T
         self.w = np.ones((nparts,)) / nparts
 
     def timestep(self, y):

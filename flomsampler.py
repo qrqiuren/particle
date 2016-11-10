@@ -123,16 +123,24 @@ if __name__ == '__main__':
         flomspec[i] = flom.compSpecSample(angles[i])
         caponexpospec[i] = capon.compSpecSample(angles[i]) ** expo
         flomexpospec[i] = flom.compSpecSample(angles[i]) ** expo
-    caponspec /= caponspec[groundtruth * nangles // 180]
-    flomspec /= flomspec[groundtruth * nangles // 180]
-    caponexpospec /= caponexpospec[groundtruth * nangles // 180]
-    flomexpospec /= flomexpospec[groundtruth * nangles // 180]
+#    caponspec /= caponspec[groundtruth * nangles // 180]
+#    flomspec /= flomspec[groundtruth * nangles // 180]
+#    caponexpospec /= caponexpospec[groundtruth * nangles // 180]
+#    flomexpospec /= flomexpospec[groundtruth * nangles // 180]
+    caponspec /= np.max(caponspec)
+    flomspec /= np.max(flomspec)
+    caponexpospec /= np.max(caponexpospec)
+    flomexpospec /= np.max(flomexpospec)
 
     plt.plot(angles / np.pi * 180, caponspec, 'k:', label='Capon')
     plt.plot(angles / np.pi * 180, flomspec, 'k--', label='FLOM')
-    plt.plot(angles / np.pi * 180, caponexpospec, 'k-.', label='Capon, ksi=5')
-    plt.plot(angles / np.pi * 180, flomexpospec, 'k-', label='FLOM, ksi=5')
-    plt.plot([groundtruth, groundtruth], [0, 1], 'k')
+    plt.plot(angles / np.pi * 180, caponexpospec, 'k-.',
+             label=r'Capon, $\xi$=5')
+    plt.plot(angles / np.pi * 180, flomexpospec, 'k-',
+             label=r'FLOM, $\xi$=5')
+    plt.plot([groundtruth, groundtruth], [0, 1.2], 'k')
+    plt.xlabel('DOA angle (degree)')
+    plt.ylabel('normalized amplitude')
     plt.title('Spatial spectrum (Ground truth = %d deg)' % groundtruth)
     plt.legend()
     plt.show()

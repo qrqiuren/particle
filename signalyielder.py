@@ -75,7 +75,7 @@ class SignalYielder:
 
         Parameters
         ----------
-        angles : (snapshots,)
+        angles : (nsnapshots,)
             Angle of current snapshot.
 
         Returns
@@ -84,13 +84,13 @@ class SignalYielder:
             A snapshot in DOA `y`. `nsensors` is the number of sensors in
             `sarr`.
         """
-        snapshots = angles.size
+        nsnapshots = angles.size
 
-        phase = np.random.random(snapshots) * np.pi * 2
+        phase = np.random.random(nsnapshots) * np.pi * 2
         y = salphas_cplx(self.alpha, self.gamma,
-                         size=(self.sarr.nsensors, snapshots))
+                         size=(self.sarr.nsensors, nsnapshots))
 
-        for i in range(snapshots):
+        for i in range(nsnapshots):
             a = self.sarr.steer(angles[i])
             signal = np.exp(1j * np.pi * phase[i])
             y[:, i] += signal * a

@@ -18,6 +18,12 @@ from flomsampler import FLOMSampler
 from naivetracker import NaiveTracker
 from pftracker import PFTracker
 
+# Modes can be selected within 'singleshot', 'flom', 'alpha', 'gsnr' and 'nss'.
+# 'singleshot' is the fastest usage of the main routine. Others are
+# evaluations of algorithms
+mode = 'singleshot'
+nruns = 100
+
 
 def sim(totaltime, totalss, nss, alpha, flomorder, gsnr, retorig,
         randtrack=False):
@@ -136,9 +142,6 @@ def sim(totaltime, totalss, nss, alpha, flomorder, gsnr, retorig,
         return proc, rmse, ts_t, ts_doa, esti
     else:
         return proc, rmse
-
-mode = 'alpha'
-nruns = 100
 
 if mode == 'singleshot':
     import time

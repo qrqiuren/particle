@@ -43,7 +43,7 @@ class PFTracker(Tracker):
         noisestd : float
             Standard deviation of noise.
         expo : float
-            Exponent of computing likelihood of each particles
+            Exponent of computing likelihood of each particles.
         """
         self.smp = smp
 

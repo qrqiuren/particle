@@ -107,7 +107,7 @@ if __name__ == '__main__':
     y = np.zeros((nsensors, t.size), dtype=np.complex)
     for i in range(t.size):
         y[:, i] = a * signal[i]
-    noise = salphas_cplx(1.5, 2., size=(nsensors, t.size))
+    noise = salphas_cplx(1.5, 3.0, size=(nsensors, t.size))
     y += noise
 
     capon.compCov(y)
